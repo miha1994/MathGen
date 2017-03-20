@@ -21,6 +21,6 @@ struct Template {
 	string m_answer;
 	expression m_ans_expr;
 	
-	bool load(FILE *in);
+	int load(FILE *in);
 	Template get_instance();
 };

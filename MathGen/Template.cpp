@@ -3,13 +3,25 @@
 
 #include <iostream>
 
-bool Template::load(FILE *f) {
+int Template::load(FILE *f) {
 	m_problem_text.clear();
 	m_ints.clear();
 	m_answer.clear();
 
+	int rv;
+
 	wchar_t c;
-	while ((c = getwc(f)) != '%');
+	while ((c = getwc(f)) != '%') {
+		if (feof(f)) {
+			return 0;
+		}
+	}
+	fscanf_s(f, "%d", &rv);
+	while ((c = getwc(f)) != '%') {
+		if (feof(f)) {
+			return 0;
+		}
+	}
 	if ((c = getwc(f)) != '1') {
 		return false;
 	}
@@ -24,7 +36,7 @@ bool Template::load(FILE *f) {
 		m_problem_text += c;
 	}
 	if ((c = getc(f)) != '2') {
-		return false;
+		return 0;
 	}
 	while ((c = getc(f)) != '\n');
 	
@@ -60,7 +72,7 @@ bool Template::load(FILE *f) {
 		}
 	}
 	if ((c = getc(f)) != '3') {
-		return false;
+		return 0;
 	}
 	while ((c = getc(f)) != '\n');
 	char cc;
@@ -77,7 +89,7 @@ bool Template::load(FILE *f) {
 		ungetc(cc, f);
 	}
 	
-	return true;
+	return rv;
 }
 
 Template Template::get_instance() {

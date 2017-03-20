@@ -13,10 +13,12 @@ enum mouse {
 // состояние кнопки
 class button_state {
 public:
-	bool pressed_now;  // нажата ли сейчас кнопка?
-	bool just_released;// была ли кнопка только что отпущена?
-	bool just_pressed; // была ли кнопка только что нажата?
-	void _upd(bool _pressed_now);		// обновляет состояние по заданному новому значению pressed_now поля
+	bool pressed_now = false;  // нажата ли сейчас кнопка?
+	bool just_released = false;// была ли кнопка только что отпущена?
+	bool just_pressed = false; // была ли кнопка только что нажата?
+	bool signal = false;
+	float time = 0.0f;
+	void _upd(bool _pressed_now, float dt);		// обновляет состояние по заданному новому значению pressed_now поля
 };
 
 // структура, обеспечивающая обработку пользовательского ввода
@@ -45,6 +47,14 @@ struct input {
 		button_state space;
 		button_state delete_;
 		button_state enter;
+		button_state back_space;
+		button_state divide;
+		button_state subtrack;
+		button_state equal;
+		button_state add;
+		button_state multiply;
+		button_state home;
+		button_state end;
 		button_state dirs[4];
 		button_state &left;
 		button_state &right;
@@ -63,7 +73,7 @@ struct input {
 			}
 		}
 	} kb; // --//-- клавиатура
-	void upd(sf::RenderWindow *wind); // обновить состояния датчиков
+	void upd(sf::RenderWindow *wind, float dt); // обновить состояния датчиков
 };
 
 extern input in;

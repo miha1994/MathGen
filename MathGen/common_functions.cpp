@@ -25,3 +25,38 @@ int rand_n(int n) {
 float length(v2f v) {
 	return sqrt(v.x * v.x + v.y * v.y);
 }
+
+int char2num (char c) {
+	if (isdigit (c)) {
+		return c - '0';
+	}
+	c = tolower(c);
+	if (c >= 'a' && c <= 'f') {
+		return (c - 'a') + 10;
+	}
+	return -1;
+}
+
+CLR str2clr(string rgb0x) {
+	return CLR(char2num(rgb0x[0]) * 16 + char2num(rgb0x[1]), char2num(rgb0x[2]) * 16 + char2num(rgb0x[3]), char2num(rgb0x[4]) * 16 + char2num(rgb0x[5]));
+}
+
+CLR operator * (CLR col, float fl) {
+	col.r *= fl;
+	col.g *= fl;
+	col.b *= fl;
+	return col;
+}
+CLR operator + (CLR c1, CLR c2) {
+	c1.r += c2.r;
+	c1.g += c2.g;
+	c1.b += c2.b;
+	return c1;
+}
+
+CLR clr_sum(CLR c1, CLR c2) {
+	c1.r += c2.r;
+	c1.g += c2.g;
+	c1.b += c2.b;
+	return c1;
+}

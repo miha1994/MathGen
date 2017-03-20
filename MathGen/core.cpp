@@ -2,19 +2,24 @@
 #include "input.h"
 #include <iostream>
 #include <fstream>
+#include "menu.h"
 #include "tester.h"
 
 Core core;
 
 bool Core::init(bool fullscreen) {
-	m_window.create(sf::VideoMode(600, 400), "execute me", fullscreen ? sf::Style::Fullscreen : sf::Style::Default);
+	if (!m_font_cg.loadFromFile("assets/fonts/cg.ttf") || !m_font_consolas.loadFromFile("assets/fonts/consolas.ttf")) {
+		return false;
+	}
+	m_window.create(sf::VideoMode(800, 600), "MathGen", fullscreen ? sf::Style::Fullscreen : sf::Style::Default & ~sf::Style::Resize);
 	m_window.setVerticalSyncEnabled(true);
 	m_window.setFramerateLimit(120);
 
 	m_running = true;
 	m_paused = false;
 
-	m_current_state = STATE_TESTER;
+	m_current_state = STATE_MENU;
+	m_spaces[STATE_MENU] = &g_menu;
 	m_spaces[STATE_TESTER] = &g_tester;
 
 	for (auto p : m_spaces) {
@@ -25,6 +30,7 @@ bool Core::init(bool fullscreen) {
 }
 
 void Core::update() {
+	rand();
 	sf::Event event;
 	while (m_window.pollEvent(event))
 	{
@@ -44,9 +50,10 @@ void Core::update() {
 		}
 	}
 	if (!m_paused) {
-		in.upd(&m_window);
 		float dt = (m_clock.restart()).asSeconds();
-		dt = min(dt, 0.3f);
+		dt = min(dt, 0.02f);
+
+		in.upd(&m_window, dt);
 		m_spaces[m_current_state]->update(dt);
 	}
 }

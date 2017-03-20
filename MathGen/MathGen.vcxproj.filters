@@ -39,6 +39,12 @@
     <ClCompile Include="line_edit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="button.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sfml.h">
@@ -71,12 +77,21 @@
     <ClInclude Include="line_edit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="button.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="assets\txt\templates.txt">
       <Filter>Resource Files</Filter>
     </Text>
     <Text Include="assets\txt\output.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="p_list.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

@@ -8,7 +8,10 @@ using namespace std;
 
 class Core {
 public:
+	sf::Font m_font_cg;
+	sf::Font m_font_consolas;
 	enum state {
+		STATE_MENU,
 		STATE_TESTER
 	};
 	sf::RenderWindow m_window;

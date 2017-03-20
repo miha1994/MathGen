@@ -72,3 +72,8 @@ int rand_n(int n);
 
 #define _n_		<< ' ' <<
 #define Tstr(something)		std::to_string (something)
+
+CLR str2clr(string rgb0x);
+CLR operator * (CLR col, float fl);
+CLR operator + (CLR c1, CLR c2);
+CLR clr_sum(CLR c1, CLR c2);

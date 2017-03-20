@@ -28,7 +28,7 @@ int priority(string Operator) {
 	else if (Operator == "*" || Operator == "/" || Operator == ":") {
 		return 1;
 	}
-	else if (Operator == "^") {
+	else if (Operator == "^" || Operator == "**") {
 		return 2;
 	}
 	else if (Operator == "#") {
@@ -133,6 +133,15 @@ expression str2expr(string expr) {
 					stck.push_back(last = nxt);
 				}
 				else {
+					if (val == "*") {
+						if (*(c + 1) == '*') {
+							val = "**";
+							++c;
+						}
+					}
+					if (val == "^") {
+						val = "**";
+					}
 					while (1) {
 						if (stck.size() && ((stck.back().m_type == "operator" && priority(val) <= priority(stck.back().m_value)) || stck.back().m_type == "func")) {
 							lexems.push_back(stck.back());
@@ -236,7 +245,19 @@ string expression::ToString() {
 	return "";
 }
 
-void expression::insert_values(map <string, string> values) {
+void expression::_make_elements_map(map <string, int> &map_) {
+	if (m_type == "number" || m_type == "var") {
+		++map_["var"];
+	}
+	else {
+		++map_[m_value];
+	}
+	forstl(p, end, m_arguments) {
+		p->_make_elements_map(map_);
+	}
+}
+
+void expression::insert_values(map <string, string> &values) {
 	if (m_type == "var") {
 		if (D_CONTAINES(values, m_value)) {
 			m_value = values[m_value];
@@ -259,4 +280,47 @@ void expression::calculate() {
 	getline(in, str);
 	in.close();
 	*this = str2expr(str);
+}
+
+bool correct_expr(string str) {
+	ofstream out;
+	out.open("input.txt");
+	forstl(c, end, str) {
+		if (*c == '^') {
+			*c = '*';
+			str.insert(c, '*');
+			end = str.end();
+		}
+	}
+	out << str;
+	out.close();
+	system("assets\\calc\\main.exe");
+	ifstream in;
+	in.open("output.txt");
+	string s;
+	getline(in, s);
+	in.close();
+	return s != "";
+}
+
+bool expression::operator == (expression &expr) {
+	map <string, int> m1, m2;
+	_make_elements_map(m1);
+	expr._make_elements_map(m2);
+	if (m1 == m2) {
+		ofstream out;
+		out.open("input.txt");
+		out << "( " << ToString() << " ) - ( " << expr.ToString() << " )";
+		out.close();
+		system("assets\\calc\\main.exe");
+		ifstream in;
+		in.open("output.txt");
+		string s;
+		getline(in, s);
+		in.close();
+		return s == "0";
+	}
+	else {
+		return false;
+	}
 }
