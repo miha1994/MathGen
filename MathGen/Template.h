@@ -3,9 +3,10 @@
 #include "expression.h"
 
 struct Template {
+	int m_id;
 	wstring m_problem_text;
 	struct Int {
-		char letter;
+		string letter;
 		struct segment {
 			int a;
 			int b;
@@ -15,6 +16,7 @@ struct Template {
 			}
 		};
 		vector <segment> segments;
+		string expr;
 		int value;
 	};
 	list <Int> m_ints;

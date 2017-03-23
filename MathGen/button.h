@@ -11,6 +11,7 @@ struct button {
 	CLR m_active_rect_color;
 	CLR m_active_text_color;
 	float m_time;
+	bool m_active;
 
 	void init(sf::Rect<float> rect, wstring text, CLR not_active_rect_color, CLR not_active_text_color, CLR active_rect_color, CLR active_text_color);
 	void render(sf::RenderWindow *);

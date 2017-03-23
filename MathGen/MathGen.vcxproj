@@ -134,6 +134,7 @@
     <ClCompile Include="line_edit.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menu.cpp" />
+    <ClCompile Include="conclusion.cpp" />
     <ClCompile Include="Template.cpp" />
     <ClCompile Include="tester.cpp" />
   </ItemGroup>
@@ -146,6 +147,7 @@
     <ClInclude Include="main_header.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="object.h" />
+    <ClInclude Include="conclusion.h" />
     <ClInclude Include="sfml.h" />
     <ClInclude Include="Template.h" />
     <ClInclude Include="tester.h" />

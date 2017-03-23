@@ -77,3 +77,10 @@ CLR str2clr(string rgb0x);
 CLR operator * (CLR col, float fl);
 CLR operator + (CLR c1, CLR c2);
 CLR clr_sum(CLR c1, CLR c2);
+
+string get_str(FILE *);
+void put_str(FILE *f, string &str);
+wstring get_wstr(FILE *f);
+void put_wstr(FILE *f, wstring &str);
+
+bool isspace(string str);

@@ -4,6 +4,7 @@
 #include <fstream>
 #include "menu.h"
 #include "tester.h"
+#include "conclusion.h"
 
 Core core;
 
@@ -21,6 +22,7 @@ bool Core::init(bool fullscreen) {
 	m_current_state = STATE_MENU;
 	m_spaces[STATE_MENU] = &g_menu;
 	m_spaces[STATE_TESTER] = &g_tester;
+	m_spaces[STATE_CONCLUSION] = &g_conclusion;
 
 	for (auto p : m_spaces) {
 		p.second->load();

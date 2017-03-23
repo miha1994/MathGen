@@ -60,3 +60,58 @@ CLR clr_sum(CLR c1, CLR c2) {
 	c1.b += c2.b;
 	return c1;
 }
+
+inline int getch(FILE *f) {
+	int n;
+	fscanf_s(f, "%d", &n);
+	return n;
+}
+
+inline void putch(FILE *f, int ch) {
+	fprintf_s(f, "%d\n", ch);
+}
+
+string get_str(FILE *f) {
+	string rv;
+	int c;
+	while ((c = getch(f)) != 289);
+	while ((c = getch(f)) != 289) {
+		rv += c;
+	}
+	return rv;
+}
+
+wstring get_wstr(FILE *f) {
+	wstring rv;
+	int c;
+	while ((c = getch(f)) != 291);
+	while ((c = getch(f)) != 291) {
+		rv += c;
+	}
+	return rv;
+}
+
+void put_str(FILE *f, string &str) {
+	putch(f, 289);
+	for (auto c : str) {
+		putch(f, c);
+	}
+	putch(f, 289);
+}
+
+void put_wstr(FILE *f, wstring &str) {
+	putch(f, 291);
+	for (auto c : str) {
+		putch(f, c);
+	}
+	putch(f, 291);
+}
+
+bool isspace(string str) {
+	for (auto c : str) {
+		if (!isspace(c)) {
+			return false;
+		}
+	}
+	return true;
+}

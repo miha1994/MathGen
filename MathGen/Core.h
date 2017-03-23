@@ -12,7 +12,8 @@ public:
 	sf::Font m_font_consolas;
 	enum state {
 		STATE_MENU,
-		STATE_TESTER
+		STATE_TESTER,
+		STATE_CONCLUSION
 	};
 	sf::RenderWindow m_window;
 	sf::Clock m_clock;

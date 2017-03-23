@@ -18,7 +18,8 @@ func_info functions[] = {
 	func_info("cos", 1),
 	func_info("sqrt", 1),
 	func_info("min", 2),
-	func_info("max", 2)
+	func_info("max", 2),
+	func_info("int", 1)
 };
 
 int priority(string Operator) {
@@ -318,7 +319,7 @@ bool expression::operator == (expression &expr) {
 		string s;
 		getline(in, s);
 		in.close();
-		return s == "0";
+		return s == "0" || s == "0.0";
 	}
 	else {
 		return false;

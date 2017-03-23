@@ -1,8 +1,7 @@
+exec init_printing(pretty_print = True)
 integrate (x ** 2, x)
 solve (m**2 - n, m)
 exec u = 1000000000000000
 2
 u
 66*a/10 - 599 * a / 100
-1 1
-1

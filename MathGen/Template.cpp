@@ -17,6 +17,7 @@ int Template::load(FILE *f) {
 		}
 	}
 	fscanf_s(f, "%d", &rv);
+	m_id = rv;
 	while ((c = getwc(f)) != '%') {
 		if (feof(f)) {
 			return 0;
@@ -27,13 +28,13 @@ int Template::load(FILE *f) {
 	}
 	while ((c = getwc(f)) != '\n');
 	while ((c = getwc(f)) != '%') {
-		if (c >= 192 && c <= 223) {
+		if (c >= 192 && c <= 255) {
 			c = L'À' + (c - 192);
 		}
-		if (c >= 224 && c <= 255) {
-			c = L'à' + (c - 224);
-		}
 		m_problem_text += c;
+	}
+	while (isspace(m_problem_text.back())) {
+		m_problem_text.pop_back();
 	}
 	if ((c = getc(f)) != '2') {
 		return 0;
@@ -52,8 +53,16 @@ int Template::load(FILE *f) {
 			s += c;
 		}
 		if (s == "int") {
+			int_.letter.clear();
+			int_.value = 0;
+			int_.expr.clear();
+			int_.segments.clear();
+
 			while (isspace(c = getc(f)));
 			int_.letter = c;
+			while (!isspace(c = getc(f))) {
+				int_.letter += c;
+			}
 			Int::segment segm;
 			while (1) {
 				while (isspace(c = getc(f))) {
@@ -64,9 +73,17 @@ int Template::load(FILE *f) {
 				if (c == '\n') {
 					break;
 				}
-				ungetc(c, f);
-				fscanf_s(f, "%d%d", &segm.a, &segm.b);
-				int_.segments.push_back(segm);
+				if (isdigit(c)) {
+					ungetc(c, f);
+					fscanf_s(f, "%d%d", &segm.a, &segm.b);
+					int_.segments.push_back(segm);
+				}
+				else if (c == '=') {
+					while ((c = getc(f)) != '\n') {
+						int_.expr += c;
+					}
+					break;
+				}
 			}
 			m_ints.push_back(int_);
 		}
@@ -83,7 +100,9 @@ int Template::load(FILE *f) {
 		if (cc >= 224 && cc <= 255) {
 			cc = L'à' + (cc - 224);
 		}
-		m_answer += cc;
+		if (!isspace(cc)) {
+			m_answer += cc;
+		}
 	}
 	if (cc == '%') {
 		ungetc(cc, f);
@@ -94,14 +113,21 @@ int Template::load(FILE *f) {
 
 Template Template::get_instance() {
 	Template rv;
+	rv.m_id = m_id;
 	rv.m_ints = m_ints;
 	map <string, string> letters;
 	forstl(p, end, rv.m_ints) {
-		auto segm = p->segments[rand_n(p->segments.size())];
-		p->value = segm.a + rand_n (segm.b - segm.a + 1);
-		string l;
-		l += p->letter;
-		letters.insert(pair<string, string>(l, Tstr(p->value)));
+		if (p->segments.size()) {
+			auto segm = p->segments[rand_n(p->segments.size())];
+			p->value = segm.a + rand_n(segm.b - segm.a + 1);
+			letters.insert(pair<string, string>(p->letter, Tstr(p->value)));
+		}
+		else {
+			expression e = str2expr (p->expr);
+			e.insert_values(letters);
+			e.calculate();
+			letters.insert(pair<string, string>(p->letter, e.ToString ()));
+		}
 	}
 	forstl(c, end, m_problem_text) {
 		if (*c == '[' || *c == '{') {
