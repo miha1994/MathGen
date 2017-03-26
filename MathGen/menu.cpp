@@ -5,6 +5,9 @@
 menu g_menu;
 
 int char2int(char c) {
+	if (isdigit(c)) {
+		return c - '0';
+	}
 	switch (c) {
 	case 'q': return 1; break;
 	case 'w': return 2; break;
@@ -30,7 +33,7 @@ void menu::update(float dt) {
 		char c;
 		while (1) {
 			n = 0;
-			while ((c = getc(f)) != 's' && c != EOF) {
+			while ((c = getc(f)) != 's' && c != ' ' && c != EOF) {
 				n = 10 * n + char2int (c);
 			}
 			numbers.push_back(n);

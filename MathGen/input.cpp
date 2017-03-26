@@ -57,6 +57,8 @@ void input::upd(sf::RenderWindow *wind, float dt) {
 	kb.delete_._upd(kb_::isKeyPressed(kb_::Delete), dt);
 	kb.enter._upd(kb_::isKeyPressed(kb_::Return), dt);
 	kb.back_space._upd(kb_::isKeyPressed(kb_::BackSpace), dt);
+	kb.comma._upd(kb_::isKeyPressed(kb_::Comma), dt);
+	kb.period._upd(kb_::isKeyPressed(kb_::Period), dt);
 	kb.divide._upd(kb_::isKeyPressed(kb_::Divide) || kb_::isKeyPressed(kb_::Slash), dt);
 	kb.subtrack._upd(kb_::isKeyPressed(kb_::Subtract) || kb_::isKeyPressed(kb_::Dash), dt);
 	kb.equal._upd(kb_::isKeyPressed(kb_::Equal), dt);

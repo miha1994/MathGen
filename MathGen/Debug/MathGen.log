@@ -1,5 +1,24 @@
 ﻿  tester.cpp
+c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\tester.cpp(11): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\tester.cpp(196): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\tester.cpp(205): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\tester.cpp(246): warning C4305: '=': truncation from 'double' to 'float'
+  Template.cpp
+c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\template.cpp(54): warning C4244: 'argument': conversion from 'wchar_t' to 'char', possible loss of data
+c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\template.cpp(56): warning C4244: 'argument': conversion from 'wchar_t' to 'char', possible loss of data
+c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\template.cpp(65): warning C4244: 'argument': conversion from 'wchar_t' to 'char', possible loss of data
+c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\template.cpp(67): warning C4244: 'argument': conversion from 'wchar_t' to 'char', possible loss of data
+c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\template.cpp(86): warning C4244: 'argument': conversion from 'wchar_t' to 'char', possible loss of data
+c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\template.cpp(102): warning C4244: 'argument': conversion from 'wchar_t' to 'char', possible loss of data
+c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\template.cpp(104): warning C4244: 'argument': conversion from 'wchar_t' to 'char', possible loss of data
+c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\template.cpp(152): warning C4244: 'argument': conversion from 'wchar_t' to 'char', possible loss of data
+c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\template.cpp(222): warning C4018: '<': signed/unsigned mismatch
+c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\template.cpp(238): warning C4244: 'initializing': conversion from 'wchar_t' to 'char', possible loss of data
+c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\template.cpp(242): warning C4244: 'argument': conversion from 'wchar_t' to 'char', possible loss of data
+c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\template.cpp(266): warning C4244: 'argument': conversion from 'wchar_t' to 'char', possible loss of data
+  conclusion.cpp
   menu.cpp
+  main.cpp
   line_edit.cpp
 c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\line_edit.cpp(12): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\line_edit.cpp(15): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
@@ -8,21 +27,21 @@ c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\line_edit.cp
 c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\line_edit.cpp(95): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
 c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\line_edit.cpp(121): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\line_edit.cpp(136): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+  fraction.cpp
+  expression.cpp
   core.cpp
   common_functions.cpp
+c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\common_functions.cpp(45): warning C4244: '*=': conversion from 'float' to 'sf::Uint8', possible loss of data
+c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\common_functions.cpp(46): warning C4244: '*=': conversion from 'float' to 'sf::Uint8', possible loss of data
+c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\common_functions.cpp(47): warning C4244: '*=': conversion from 'float' to 'sf::Uint8', possible loss of data
+  button.cpp
+c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\button.cpp(4): warning C4305: 'initializing': truncation from 'double' to 'float'
   Generating Code...
+c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\menu.cpp(23): warning C4715: 'char2int': not all control paths return a value
   Compiling...
-  Template.cpp
-c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\template.cpp(42): warning C4244: 'argument': conversion from 'wchar_t' to 'char', possible loss of data
-c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\template.cpp(44): warning C4244: 'argument': conversion from 'wchar_t' to 'char', possible loss of data
-c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\template.cpp(48): warning C4244: '=': conversion from 'wchar_t' to 'char', possible loss of data
-c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\template.cpp(100): warning C4244: 'initializing': conversion from 'wchar_t' to 'char', possible loss of data
-c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\template.cpp(104): warning C4244: 'argument': conversion from 'wchar_t' to 'char', possible loss of data
-  main.cpp
   input.cpp
 c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\input.cpp(28): warning C4305: '+=': truncation from 'double' to 'float'
 c:\users\user\documents\visual studio 2015\projects\mathgen\mathgen\input.cpp(31): warning C4305: '+=': truncation from 'double' to 'float'
-  expression.cpp
   Generating Code...
   MathGen.vcxproj -> C:\Users\User\documents\visual studio 2015\Projects\MathGen\Debug\MathGen.exe
   MathGen.vcxproj -> C:\Users\User\documents\visual studio 2015\Projects\MathGen\Debug\MathGen.pdb (Full PDB)

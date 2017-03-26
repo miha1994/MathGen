@@ -7,6 +7,7 @@
 struct conclusion : Object {
 	sf::RectangleShape m_bg;
 	sf::Text m_results;
+	sf::Text m_mark;
 	sf::Text m_stat_text;
 	sf::Text m_stat_numbers;
 	button m_go_to_menu;

@@ -48,6 +48,8 @@ struct input {
 		button_state delete_;
 		button_state enter;
 		button_state back_space;
+		button_state comma;
+		button_state period;
 		button_state divide;
 		button_state subtrack;
 		button_state equal;

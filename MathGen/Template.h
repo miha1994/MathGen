@@ -19,9 +19,30 @@ struct Template {
 		string expr;
 		int value;
 	};
+	struct Float {
+		string letter;
+		struct segment {
+			int n_of_digits_after_point;
+			int a;
+			int b;
+			segment(int a_ = 0, int b_ = 0, int n_of_digits_after_point_ = 0) {
+				a = a_;
+				b = b_;
+				n_of_digits_after_point = n_of_digits_after_point_;
+			}
+		};
+		vec <segment> segments;
+		string expr;
+		string value;
+		string numerator;
+		string denominator;
+		bool no_zero;
+	};
 	list <Int> m_ints;
+	list <Float> m_floats;
 	string m_answer;
 	expression m_ans_expr;
+	string m_test_mode;
 	
 	int load(FILE *in);
 	Template get_instance();

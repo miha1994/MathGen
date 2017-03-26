@@ -14,6 +14,19 @@ string str_to_spacestr(string str, int len) {
 	return str;
 }
 
+int mark(float pr) {
+	if (pr > 0.949) {
+		return 5;
+	}
+	if (pr > 0.749) {
+		return 4;
+	}
+	if (pr > 0.499) {
+		return 3;
+	}
+	return 2;
+}
+
 void tester::update(float dt) {
 	if (!m_submited) {
 		m_user_answer.update(dt);
@@ -55,6 +68,16 @@ void tester::update(float dt) {
 					g_conclusion.m_resolve.m_active = num_of_wrong_a || num_of_skips;
 					g_conclusion.m_resolve.m_time = 0;
 					g_conclusion.m_go_to_menu.m_time = 0;
+					if (m_info.size() > 3) {
+						g_conclusion.m_mark.setCharacterSize(40);
+						g_conclusion.m_mark.setString(L"Ваша оценка - \" " + to_wstring (mark (float(num_of_correct_a) / float (m_info.size()))) + L" \"");
+						g_conclusion.m_mark.setPosition(v2f(400 - g_conclusion.m_mark.getGlobalBounds().width / 2, 130));
+					}
+					else {
+						g_conclusion.m_mark.setCharacterSize(25);
+						g_conclusion.m_mark.setString(L"Слишком мало заданий для выставления оценки");
+						g_conclusion.m_mark.setPosition(v2f(400 - g_conclusion.m_mark.getGlobalBounds().width / 2, 130));
+					}
 
 					m_info_archive.push_back(m_info);
 					m_info.clear();
@@ -70,7 +93,7 @@ void tester::update(float dt) {
 				}
 			}
 			FILE *f;
-			fopen_s(&f, "info.txt", "w");
+			fopen_s(&f, "log.txt", "w");
 			fprintf_s(f, "%d\n", m_info_archive.size());
 			string tmp;
 
@@ -89,7 +112,14 @@ void tester::update(float dt) {
 		if ((m_submit_button.m_state.just_pressed || in.kb.enter.just_pressed) && !isspace(m_user_answer.m_line.getString()) || m_skip.m_state.just_pressed) {
 			if (!m_skip.m_state.just_pressed) {
 				m_submited = true;
-				m_correct = correct_expr(m_user_answer.m_line.getString()) && str2expr(m_user_answer.m_line.getString()) == m_problems[m_current_problem].m_ans_expr;
+
+				SWITCH (m_problems[m_current_problem].m_test_mode)
+				CASE ("calc_python") {
+					m_correct = correct_expr(m_user_answer.m_line.getString()) && str2expr(m_user_answer.m_line.getString()) == m_problems[m_current_problem].m_ans_expr;
+				}
+				CASE ("calc_frac") {
+					m_correct = frac_expr_are_equal(str2expr(m_user_answer.m_line.getString()), m_problems[m_current_problem].m_ans_expr);
+				}
 				if (m_correct) {
 					m_result.setString(L"ВЕРНО");
 					m_rbg.setFillColor(str2clr("92ec00"));
@@ -141,6 +171,16 @@ void tester::update(float dt) {
 					g_conclusion.m_resolve.m_active = num_of_wrong_a || num_of_skips;
 					g_conclusion.m_resolve.m_time = 0;
 					g_conclusion.m_go_to_menu.m_time = 0;
+					if (m_info.size() > 3) {
+						g_conclusion.m_mark.setCharacterSize(40);
+						g_conclusion.m_mark.setString(L"Ваша оценка - \" " + to_wstring(mark(float(num_of_correct_a) / float(m_info.size()))) + L" \"");
+						g_conclusion.m_mark.setPosition(v2f(400 - g_conclusion.m_mark.getGlobalBounds().width / 2, 130));
+					}
+					else {
+						g_conclusion.m_mark.setCharacterSize(25);
+						g_conclusion.m_mark.setString(L"Слишком мало заданий для выставления оценки");
+						g_conclusion.m_mark.setPosition(v2f(400 - g_conclusion.m_mark.getGlobalBounds().width / 2, 130));
+					}
 
 					m_info_archive.push_back(m_info);
 					m_info.clear();
@@ -157,7 +197,7 @@ void tester::update(float dt) {
 			}
 
 			FILE *f;
-			fopen_s(&f, "info.txt", "w");
+			fopen_s(&f, "log.txt", "w");
 			fprintf_s(f, "%d\n", m_info.size() ? m_info_archive.size() + 1 : m_info_archive.size());
 			string tmp;
 
@@ -226,6 +266,16 @@ void tester::update(float dt) {
 				g_conclusion.m_resolve.m_active = num_of_wrong_a || num_of_skips;
 				g_conclusion.m_resolve.m_time = 0;
 				g_conclusion.m_go_to_menu.m_time = 0;
+				if (m_info.size() > 3) {
+					g_conclusion.m_mark.setCharacterSize(40);
+					g_conclusion.m_mark.setString(L"Ваша оценка - \" " + to_wstring(mark(float(num_of_correct_a) / float(m_info.size()))) + L" \"");
+					g_conclusion.m_mark.setPosition(v2f(400 - g_conclusion.m_mark.getGlobalBounds().width / 2, 130));
+				}
+				else {
+					g_conclusion.m_mark.setCharacterSize(25);
+					g_conclusion.m_mark.setString(L"Слишком мало заданий для выставления оценки");
+					g_conclusion.m_mark.setPosition(v2f(400 - g_conclusion.m_mark.getGlobalBounds().width / 2, 130));
+				}
 
 				m_info_archive.push_back(m_info);
 				m_info.clear();
@@ -300,7 +350,7 @@ void tester::load() {
 	m_go_to_results.m_text.setPosition(m_go_to_results.m_text.getPosition() + v2f(0, -7));
 
 	FILE *in;
-	fopen_s(&in, "info.txt", "r");
+	fopen_s(&in, "log.txt", "r");
 	int n, m;
 	fscanf_s(in, "%d", &n);
 	string s;

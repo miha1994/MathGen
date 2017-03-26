@@ -81,6 +81,22 @@ void line_edit::update(float dt) {
 	if (in.kb.space.signal) {
 		insert(' ');
 	}
+	if (in.kb.comma.signal) {
+		if (in.kb.shift.pressed_now) {
+			insert('<');
+		}
+		else {
+			insert(',');
+		}
+	}
+	if (in.kb.period.signal) {
+		if (in.kb.shift.pressed_now) {
+			insert('>');
+		}
+		else {
+			insert('.');
+		}
+	}
 	if (in.kb.left.signal || in.kb.right.signal) {
 		upd_cursor_pos(m_cursor_pos + (in.kb.left.signal ? -1 : 1));
 	}

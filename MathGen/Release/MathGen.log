@@ -1,12 +1,8 @@
-﻿  tester.cpp
-tester.cpp(11): warning C4018: '<': signed/unsigned mismatch
-tester.cpp(189): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-tester.cpp(198): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-tester.cpp(239): warning C4305: '=': truncation from 'double' to 'float'
+﻿  conclusion.cpp
   Generating code
-  1 of 1999 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+  1 of 2238 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    14 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  MathGen.vcxproj -> C:\Users\User\Documents\Visual Studio 2015\Projects\MathGen\Release\MathGen.exe
-  MathGen.vcxproj -> C:\Users\User\Documents\Visual Studio 2015\Projects\MathGen\Release\MathGen.pdb (Full PDB)
+  MathGen.vcxproj -> C:\Users\User\documents\visual studio 2015\Projects\MathGen\Release\MathGen.exe
+  MathGen.vcxproj -> C:\Users\User\documents\visual studio 2015\Projects\MathGen\Release\MathGen.pdb (Full PDB)

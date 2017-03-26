@@ -19,7 +19,12 @@ int vec_to_dir(v2i v) {
 }
 
 int rand_n(int n) {
-	return rand() % n;
+	if (n < RAND_MAX/2) {
+		return rand() % n;
+	}
+	else {
+		return ((rand() << 15) + rand()) % n;
+	}
 }
 
 float length(v2f v) {

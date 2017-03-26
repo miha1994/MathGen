@@ -1,72 +1,72 @@
 %1
 %1
-Вычислить [a1 + a2]
+Вычислить: [a1 + a2]
 %2
 int a1 12 998
 int a2 12 998
-%3
-{a1+a2}
+%3 calc_frac
+calc_frac{a1+a2}
 
 %2
 %1
-Вычислить [c - a]
+Вычислить: [c - a]
 %2
 int a 12 998
 int b 12 998
 int c = a + b
-%3
-{b}
+%3 calc_frac
+[b]
 
 %3
 %1
-Вычислить [a * b]
+Вычислить: [a * b]
 %2
 int a 12 998
 int b 12 98
-%3
-{a*b}
+%3 calc_frac
+calc_frac{a*b}
 
 %4
 %1
-Вычислить [c : a]
+Вычислить: [c : a]
 %2
 int a 5 9
 int b 12 998
 int c = a * b
-%3
-{b}
+%3 calc_frac
+[b]
 
 %5
 %1
-Вычислить [a * b - c]
+Вычислить: [a * b - c]
 %2
 int a 21 98
 int b 21 98
 int c 21 398
-%3
-{a * b - c}
+%3 calc_frac
+calc_frac{a * b - c}
 
 %6
 %1
-Вычислить [a : b + d]
+Вычислить: [a : b + d]
 %2
 int c 21 32
 int b 21 49
 int a = b * c
 int d 112 998
-%3
-{c + d}
+%3 calc_frac
+calc_frac{c + d}
 
 %7
 %1
-Вычислить [a * (b - c)]
+Вычислить: [a * (b - c)]
 %2
 int a 21 98
 int d 112 998
 int c 112 998
 int b = c + d
-%3
-{a * d}
+%3 calc_frac
+calc_frac{a * d}
 
 %8
 %1
@@ -77,8 +77,8 @@ int b = c + d
 int a 2 9
 int b 2 9
 int c 2 9
-%3
-{a + b * c + (a + b) * c}
+%3 calc_frac
+calc_frac{a + b * c + (a + b) * c}
 
 %9
 %1
@@ -91,35 +91,268 @@ int e 2 9
 int c 12 98
 int a = d * c
 int b = e * c
-%3
-{a + e + d + e}
+%3 calc_frac
+calc_frac{a + e + d + e}
 
 %10
 %1
-Вычислить [(a - b) : c]
+Вычислить: [(a - b) : c]
 %2
 int c 12 98
 int e 112 998
 int d = c * e
 int b 112 998
 int a = b + d
-%3
-{e}
+%3 calc_frac
+[e]
+
+%11
+%1
+Вычислить: [-a + b]
+%2
+int a 2 9
+int c 2 9
+int b = a + c
+%3 calc_frac
+[c]
+
+%12
+%1
+Вычислить: [-b + a]
+%2
+int a 2 9
+int c 2 9
+int b = a + c
+%3 calc_frac
+calc_frac{-b+a}
+
+%13
+%1
+Вычислить: [a - b]
+%2
+int a 2 9
+int c 2 9
+int b = a + c
+%3 calc_frac
+calc_frac{a - b}
+
+%14
+%1
+Вычислить: [-b - a]
+%2
+int a 2 9
+int b 2 9
+%3 calc_frac
+calc_frac{-b-a}
+
+%15
+%1
+Вычислить: [(-b) * a]
+%2
+int a 2 9
+int b 2 9
+%3 calc_frac
+calc_frac{-b*a}
+
+%16
+%1
+Вычислить: [a * (-b)]
+%2
+int a 2 9
+int b 2 9
+%3 calc_frac
+calc_frac{-b*a}
+
+%17
+%1
+Вычислить: [(-a) * (-b)]
+%2
+int a 2 9
+int b 2 9
+%3 calc_frac
+calc_frac{b*a}
+
+%18
+%1
+Вычислить: [(-a) : b]
+%2
+int c 2 9
+int b 2 9
+int a = b*c
+%3 calc_frac
+[-c]
+
+%19
+%1
+Вычислить: [a : (-b)]
+%2
+int c 2 9
+int b 2 9
+int a = b*c
+%3 calc_frac
+[-c]
+
+%20
+%1
+Вычислить: [(-a) : (-b)]
+%2
+int c 2 9
+int b 2 9
+int a = b*c
+%3 calc_frac
+[c]
+
+%21
+%1
+Вычислить: [-(-a) * (-b)]
+%2
+int a 2 9
+int b 2 9
+%3 calc_frac
+calc_frac{-a*b}
+
+%22
+%1
+Вычислить: [-(c - (-a) : (-b))]
+%2
+int c 2 9
+int d 10 100
+int b 2 9
+int a = b*d
+%3 calc_frac
+calc_frac{-(c - (-a) / (-b))}
+
+%23
+%1
+Вычислить: [-c -a*(-b)]
+%2
+int c 2 9
+int a 2 9
+int b 2 9
+%3 calc_frac
+calc_frac{-c -a*(-b)}
+
+%24
+%1
+Вычислить: [(-c - a)*(-b)*(-d)*(-e)]
+%2
+int c 2 9
+int a 2 9
+int b 2 9
+int d 1 5
+int e 1 5
+%3 calc_frac
+calc_frac{(-c - a)*(-b)*(-d)*(-e)}
+
+%25
+%1
+Вычислить: [(-(a:(-b)) - (-c)*(-d))]
+%2
+int e 2 9
+int b 21 29
+int a = e*b
+int c 11 19
+int d 11 19
+%3 calc_frac
+calc_frac{(-(a/(-b)) - (-c)*(-d))}
+
+%26
+%1
+Вычислить: [(-a)*(-b - c)*(d : (-e + f))]
+%2
+int a 2 9
+int b 2 9
+int c 2 9
+int g 4 9
+int e 11 19
+int f 2 9
+int d = (e - f) * g
+%3 calc_frac
+calc_frac{(-a)*(-b - c)*(d / (-e + f))}
 
 %1000
 %1
-Вычислить [a *( 3 * a + 2*b)]
+Вычислить: [a *( 3 * a + 2*b)]
 %2
 int a 4 10
 int b 4 10
-%3
+%3 calc_frac
 {a *( 3 * a + 2*b)}
 
 %1001
 %1
-Вычислить [a + b]
+Вычислить: [a + b]
 %2
 int a 1 5
 int b 3 7
-%3
-{a + b}
+%3 calc_frac
+calc_frac{a + b}
+
+%1002
+%1
+Упростить: [(a + b * x + c * x^2)/((x-a)*(b-x))]
+%2
+int a 1 5
+int b 3 7
+int c 10 20
+int x 10 20
+%3 calc_python
+{(a + b * x + c * x^2)/((x-a)*(b-x))}
+
+%1003
+%1
+Вычислить: [((a + b) * c * d) / (e * f * g)]
+%2
+int a 2 10
+int b 2 10
+int c 2 10
+int d 2 10
+int e 2 10
+int f 2 10
+int g 2 10
+%3 calc_frac
+calc_frac{((a + b) * c * d) / (e * f * g)}
+
+%1010
+%1
+Вычислить: [1.1 + a + b]
+%2
+float a 1.22 10.99
+float b 1.000 100.000
+%3 calc_python
+{1.1 + a + b}
+
+%1011
+%1
+Вычислить: [c - a]
+%2
+float a 0.121 0.998
+float b 12.000 100.998
+float c = a + b
+%3 calc_python
+[b]
+
+%1013
+%1
+Вычислить: [a / c + b]
+%2
+int a 2  2 3 3 5 5 7 7 11 11 13 13 17 17 19 19
+int c 2  2 3 3 5 5 7 7 11 11 13 13 17 17 19 19
+float b' d e 0.1  0.9
+%3 calc_frac
+calc_frac{a/c + d/e}
+
+%1012
+%1
+Площадь одного поля [a] га, а площадь второго на [b] га
+больше. Сколько центнеров пшеницы собрали с обоих
+полей, если с каждого гектара первого поля собрали [c] ц,
+а с каждого гектара второго - [d] ц?
+%2
+int a 150 300
+int b 15 40
+int e =a+b
+int c 30 35
+int d 36 40
+%3 calc_frac
+calc_frac{a * c + e * d}

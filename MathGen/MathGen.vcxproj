@@ -130,6 +130,7 @@
     <ClCompile Include="common_functions.cpp" />
     <ClCompile Include="core.cpp" />
     <ClCompile Include="expression.cpp" />
+    <ClCompile Include="fraction.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="line_edit.cpp" />
     <ClCompile Include="main.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="button.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="expression.h" />
+    <ClInclude Include="fraction.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="line_edit.h" />
     <ClInclude Include="main_header.h" />

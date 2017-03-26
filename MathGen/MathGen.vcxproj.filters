@@ -48,6 +48,9 @@
     <ClCompile Include="conclusion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="fraction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sfml.h">
@@ -87,6 +90,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="conclusion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fraction.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

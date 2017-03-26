@@ -53,6 +53,7 @@ expression str2expr(string expr) {
 		}
 		auto pos = string("+-*/:^").find(*c);
 		if (isdigit(*c)) {
+			bool b_float = false;
 			val = *c;
 			while (1) {
 				++c;
@@ -62,13 +63,27 @@ expression str2expr(string expr) {
 				}
 				if (isdigit(*c) || *c == '.') {
 					val += *c;
+					if (*c == '.') {
+						b_float = true;
+					}
 				}
 				else {
 					--c;
 					break;
 				}
 			}
-			nxt.m_type = "number";
+			if (b_float) {
+				nxt.m_type = "float";
+				while (val.back() == '0') {
+					val.pop_back();
+				}
+				if (val.back() == '.') {
+					val.pop_back();
+				}
+			}
+			else {
+				nxt.m_type = "number";
+			}
 			nxt.m_value = val;
 			lexems.push_back(last = nxt);
 		}
@@ -179,7 +194,7 @@ expression str2expr(string expr) {
 
 	stck.clear();
 	forstl(p, end, lexems) {
-		if (p->m_type == "number" || p->m_type == "var") {
+		if (p->m_type == "number" || p->m_type == "float" || p->m_type == "var") {
 			stck.push_back(*p);
 		}
 		else if (p->m_type == "operator") {
@@ -215,7 +230,7 @@ expression str2expr(string expr) {
 }
 
 string expression::ToString() {
-	if (m_type == "number" || m_type == "var") {
+	if (m_type == "number" || m_type == "float" || m_type == "var") {
 		return m_value;
 	}
 	if (m_type == "operator") {
@@ -246,15 +261,97 @@ string expression::ToString() {
 	return "";
 }
 
-void expression::_make_elements_map(map <string, int> &map_) {
+string expression::ToPythonString() {
+	if (m_type == "var") {
+		return m_value;
+	}
+	if (m_type == "number") {
+		return "(" + m_value + " * a / a)";
+	}
+	if (m_type == "float") {
+		return "(" + m_value + " * a / a)";
+	}
+	if (m_type == "operator") {
+		if (m_value == "#") {
+			return "-" + m_arguments.back().ToPythonString();
+		}
+		else {
+			return m_arguments.front().ToPythonString() + " " + m_value + " " + m_arguments.back().ToPythonString();
+		}
+	}
+	if (m_type == "func") {
+		if (m_value == "()") {
+			return "(" + m_arguments.back().ToPythonString() + ")";
+		}
+		else {
+			string rv = m_value + " (";
+			forstl(p, end, m_arguments) {
+				rv += p->ToPythonString();
+				auto q = p;
+				if ((++q) != end) {
+					rv += ", ";
+				}
+			}
+			rv += ")";
+			return rv;
+		}
+	}
+	return "";
+}
+
+Fraction expression::calc_frac() {
 	if (m_type == "number" || m_type == "var") {
-		++map_["var"];
+		return Fraction (atoll (m_value.c_str()));
+	}
+	if (m_type == "operator") {
+		if (m_value == "#") {
+			return Fraction (-1i64) * m_arguments.back().calc_frac();
+		}
+		if (m_value == "-") {
+			return m_arguments.front().calc_frac() - m_arguments.back().calc_frac();
+		}
+		if (m_value == "+") {
+			return m_arguments.front().calc_frac() + m_arguments.back().calc_frac();
+		}
+		if (m_value == "/" || m_value == ":") {
+			return m_arguments.front().calc_frac() / m_arguments.back().calc_frac();
+		}
+		if (m_value == "*") {
+			return m_arguments.front().calc_frac() * m_arguments.back().calc_frac();
+		}
+		if (m_value == "**" || m_value == "^") {
+			return pow (m_arguments.front().calc_frac(), m_arguments.back().calc_frac());
+		}
+	}
+	if (m_type == "func") {
+		if (m_value == "()") {
+			return m_arguments.back().calc_frac();
+		}
+	}
+	return Fraction();
+}
+
+void expression::_make_elements_map(map <string, int> &map_, bool exact) {
+	if (m_type == "number" || m_type == "float" || m_type == "var") {
+		if (exact) {
+			++map_[m_value];
+		}
+		else {
+			++map_["var"];
+		}
 	}
 	else {
-		++map_[m_value];
+		if (m_value != "#") {
+			if (m_value == "-") {
+				++map_["+"];
+			}
+			else {
+				++map_[m_value];
+			}
+		}
 	}
 	forstl(p, end, m_arguments) {
-		p->_make_elements_map(map_);
+		p->_make_elements_map(map_, exact);
 	}
 }
 
@@ -262,6 +359,14 @@ void expression::insert_values(map <string, string> &values) {
 	if (m_type == "var") {
 		if (D_CONTAINES(values, m_value)) {
 			m_value = values[m_value];
+			bool b_float = false;
+			for (auto c : m_value) {
+				if (c == '.') {
+					b_float = true;
+					break;
+				}
+			}
+			m_type = b_float ? "float" : "number";
 		}
 	}
 	forstl(p, end, m_arguments) {
@@ -272,7 +377,7 @@ void expression::insert_values(map <string, string> &values) {
 void expression::calculate() {
 	ofstream out;
 	out.open("input.txt");
-	out << ToString();
+	out << ToPythonString();
 	out.close();
 	system("assets\\calc\\main.exe");
 	ifstream in;
@@ -283,16 +388,21 @@ void expression::calculate() {
 	*this = str2expr(str);
 }
 
-bool correct_expr(string str) {
-	ofstream out;
-	out.open("input.txt");
+bool correct_expr(string str, bool frac) {
 	forstl(c, end, str) {
 		if (*c == '^') {
 			*c = '*';
 			str.insert(c, '*');
 			end = str.end();
 		}
+		if (frac) {
+			if (string("0123456789+-*/^() ").find(*c) == string::npos) {
+				return false;
+			}
+		}
 	}
+	ofstream out;
+	out.open("input.txt");
 	out << str;
 	out.close();
 	system("assets\\calc\\main.exe");
@@ -311,7 +421,7 @@ bool expression::operator == (expression &expr) {
 	if (m1 == m2) {
 		ofstream out;
 		out.open("input.txt");
-		out << "( " << ToString() << " ) - ( " << expr.ToString() << " )";
+		out << "( " << ToPythonString() << " ) - ( " << expr.ToPythonString() << " )";
 		out.close();
 		system("assets\\calc\\main.exe");
 		ifstream in;
@@ -320,6 +430,18 @@ bool expression::operator == (expression &expr) {
 		getline(in, s);
 		in.close();
 		return s == "0" || s == "0.0";
+	}
+	else {
+		return false;
+	}
+}
+
+bool frac_expr_are_equal(expression e1, expression e2) {
+	map <string, int> m1, m2;
+	e1._make_elements_map(m1, true);
+	e2._make_elements_map(m2, true);
+	if (m1 == m2) {
+		return str2expr("( " + e1.ToString () + " ) - ( " + e2.ToString () + " )").calc_frac() == Fraction(0);
 	}
 	else {
 		return false;
