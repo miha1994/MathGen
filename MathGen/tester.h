@@ -19,9 +19,9 @@ struct tester : Object {
 	vec <Template> m_problems;
 	list <list <problem_result_info>> m_info_archive;
 	list <problem_result_info> m_info;
-	sf::RectangleShape m_bg;
+	sf::Texture m_pr_texture;
+	sf::Sprite m_problem_text;
 	sf::RectangleShape m_rbg;
-	sf::Text m_problem_text;
 	sf::Text m_result;
 	line_edit m_user_answer;
 	button m_submit_button;
@@ -40,6 +40,7 @@ struct tester : Object {
 	void load();
 
 	void init(list <int> &numbers);
+	void init_sprite(wstring problem_text);
 };
 
 extern tester g_tester;

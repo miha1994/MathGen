@@ -14,6 +14,7 @@ struct expression {
 
 	string ToString();
 	string ToPythonString();
+	string ToLatexString();
 	void insert_values(map <string, string> &values);
 	void calculate();
 	bool operator == (expression &expr);

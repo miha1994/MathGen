@@ -29,17 +29,26 @@ int Template::load(FILE *f) {
 		ERR_BREAK;
 	}
 	while ((c = getwc(f)) != '\n');
-	while ((c = getwc(f)) != '%') {
-		if (c >= 192 && c <= 255) {
-			c = L'À' + (c - 192);
+	while (1) {
+		while ((c = getwc(f)) != '%') {
+			m_problem_text += c;
 		}
-		m_problem_text += c;
+		bool break_ = true;
+		if ((c = getc(f)) != '2') {
+			if (c == '%') {
+				m_problem_text += c;
+				break_ = false;
+			}
+			else {
+				ERR_BREAK;
+			}
+		}
+		if (break_) {
+			break;
+		}
 	}
 	while (isspace(m_problem_text.back())) {
 		m_problem_text.pop_back();
-	}
-	if ((c = getc(f)) != '2') {
-		ERR_BREAK;
 	}
 	while ((c = getc(f)) != '\n');
 	
@@ -306,19 +315,33 @@ Template Template::get_instance() {
 					expr = str2expr(expr.calc_frac().ToString());
 					For(9) {
 						rv.m_problem_text.pop_back();
+						rv.m_problem_text_for_log.pop_back();
 					}
 				}
 				else {
 					expr.calculate();
 				}
 			}
-
-			e = expr.ToString();
-			rv.m_problem_text += wstring (e.begin (), e.end());
+			if (last_word == "latex_im") {
+				For(8) {
+					rv.m_problem_text.pop_back();
+					rv.m_problem_text_for_log.pop_back();
+				}
+				e = expr.ToLatexString();
+				rv.m_problem_text += L"$" + wstring(e.begin(), e.end()) + L"$";
+				e = expr.ToString();
+				rv.m_problem_text_for_log += wstring(e.begin(), e.end());
+			}
+			else {
+				e = expr.ToString();
+				rv.m_problem_text += wstring(e.begin(), e.end());
+				rv.m_problem_text_for_log += wstring(e.begin(), e.end());
+			}
 		}
 		else {
 			rv.m_problem_text += *c;
-			if (wstring(L"calc_frac").find(*c) != string::npos) {
+			rv.m_problem_text_for_log += *c;
+			if (wstring(L"calc_fraclatexim").find(*c) != string::npos) {
 				last_word += *c;
 			}
 			else {

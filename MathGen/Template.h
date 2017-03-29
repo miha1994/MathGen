@@ -5,6 +5,7 @@
 struct Template {
 	int m_id;
 	wstring m_problem_text;
+	wstring m_problem_text_for_log;
 	struct Int {
 		string letter;
 		struct segment {

@@ -35,7 +35,7 @@ void tester::update(float dt) {
 		m_go_to_results.update(dt);
 		if (m_go_to_results.m_state.just_pressed) {
 			problem_result_info pri;
-			pri.the_task = to_wstring(m_problems[m_current_problem].m_id) + L") " + m_problems[m_current_problem].m_problem_text;
+			pri.the_task = to_wstring(m_problems[m_current_problem].m_id) + L") " + m_problems[m_current_problem].m_problem_text_for_log;
 			pri.correct_answer = m_problems[m_current_problem].m_answer;
 			pri.users_answer = "<no answer>";
 			pri.users_answer_is_correct = false;
@@ -87,7 +87,7 @@ void tester::update(float dt) {
 					break;
 				}
 				else {
-					pri.the_task = to_wstring(m_problems[m_current_problem].m_id) + L") " + m_problems[m_current_problem].m_problem_text;
+					pri.the_task = to_wstring(m_problems[m_current_problem].m_id) + L") " + m_problems[m_current_problem].m_problem_text_for_log;
 					pri.correct_answer = m_problems[m_current_problem].m_answer;
 					m_info.push_back(pri);
 				}
@@ -131,7 +131,7 @@ void tester::update(float dt) {
 				m_time = 0;
 
 				problem_result_info pri;
-				pri.the_task = to_wstring(m_problems[m_current_problem].m_id) + L") " + m_problems[m_current_problem].m_problem_text;
+				pri.the_task = to_wstring(m_problems[m_current_problem].m_id) + L") " + m_problems[m_current_problem].m_problem_text_for_log;
 				pri.correct_answer = m_problems[m_current_problem].m_answer;
 				pri.users_answer = m_user_answer.m_line.getString();
 				pri.users_answer_is_correct = m_correct;
@@ -139,7 +139,7 @@ void tester::update(float dt) {
 			}
 			else {
 				problem_result_info pri;
-				pri.the_task = to_wstring(m_problems[m_current_problem].m_id) + L") " + m_problems[m_current_problem].m_problem_text;
+				pri.the_task = to_wstring(m_problems[m_current_problem].m_id) + L") " + m_problems[m_current_problem].m_problem_text_for_log;
 				pri.correct_answer = m_problems[m_current_problem].m_answer;
 				pri.users_answer = "<no answer>";
 				pri.users_answer_is_correct = false;
@@ -189,7 +189,7 @@ void tester::update(float dt) {
 					}
 				}
 				else {
-					m_problem_text.setString(m_problems[m_current_problem].m_problem_text);
+					init_sprite(m_problems[m_current_problem].m_problem_text);
 					m_submited = 0;
 					m_time1 = -1;
 					m_time = -1;
@@ -284,7 +284,7 @@ void tester::update(float dt) {
 				}
 			}
 			else {
-				m_problem_text.setString(m_problems[m_current_problem].m_problem_text);
+				init_sprite(m_problems[m_current_problem].m_problem_text);
 				m_submited = 0;
 				m_time1 = D_PI / 2.6;
 				m_time = -1;
@@ -293,8 +293,17 @@ void tester::update(float dt) {
 	}
 }
 
+void tester::init_sprite(wstring problem_text) {
+	ofstream out;
+	out.open("input_latex.txt");
+	out << string (problem_text.begin () , problem_text.end ());
+	out.close();
+	system("py assets\\latex\\main.py");
+	m_pr_texture.loadFromFile("expr.png");
+	m_problem_text.setTexture(m_pr_texture);
+}
+
 void tester::render(sf::RenderWindow *wind) {
-	wind->draw(m_bg);
 	wind->draw(m_problem_text);
 	m_user_answer.render(wind);
 	m_submit_button.render(wind);
@@ -323,16 +332,9 @@ void tester::load() {
 	}
 	fclose(f);
 
-	m_bg.setFillColor(str2clr("210672"));
-	m_bg.setPosition(v2f(0, 0));
-	m_bg.setSize(v2f(800, 600));
 	m_rbg.setSize(v2f(800, 600));
 
-	m_problem_text.setPosition(10, 10);
-	m_problem_text.setCharacterSize(24);
-	m_problem_text.setFont(core.m_font_cg);
-	m_problem_text.setStyle(sf::Text::Bold);
-	m_problem_text.setFillColor(str2clr("ff4f00"));
+	m_problem_text.setPosition(0, 0);
 
 	m_result.setFont(core.m_font_cg);
 	m_result.setCharacterSize(120);
@@ -387,5 +389,5 @@ void tester::init(list <int> &numbers) {
 	m_time = -1;
 
 	m_current_problem = 0;
-	m_problem_text.setString(m_problems[m_current_problem].m_problem_text);
+	init_sprite(m_problems[m_current_problem].m_problem_text);
 }

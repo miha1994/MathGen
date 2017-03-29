@@ -299,6 +299,60 @@ string expression::ToPythonString() {
 	return "";
 }
 
+string expression::ToLatexString() {
+	if (m_type == "number" || m_type == "float" || m_type == "var") {
+		return m_value;
+	}
+	if (m_type == "operator") {
+		if (m_value == "#") {
+			return "-" + m_arguments.back().ToLatexString();
+		}
+		else if (m_value == "/") {
+			string s1, s2;
+			if (m_arguments.front().m_type == "func" && m_arguments.front().m_value == "()") {
+				s1 = m_arguments.front().m_arguments.back().ToLatexString();
+			}
+			else {
+				s1 = m_arguments.front().ToLatexString();
+			}
+			if (m_arguments.back().m_type == "func" && m_arguments.back().m_value == "()") {
+				s2 = m_arguments.back().m_arguments.back().ToLatexString();
+			}
+			else {
+				s2 = m_arguments.back().ToLatexString();
+			}
+			return "\\frac{" + s1 + "}{" + s2 + "}";
+		}
+		else if (m_value == "**" || m_value == "^") {
+			return m_arguments.front().ToLatexString() + "^{" + m_arguments.back().ToLatexString() + "}";
+		}
+		else if (m_value == "*") {
+			return m_arguments.front().ToLatexString() + "\\cdot " + m_arguments.back().ToLatexString();
+		}
+		else {
+			return m_arguments.front().ToLatexString() + " " + m_value + " " + m_arguments.back().ToLatexString();
+		}
+	}
+	if (m_type == "func") {
+		if (m_value == "()") {
+			return "(" + m_arguments.back().ToLatexString() + ")";
+		}
+		else {
+			string rv = m_value + " (";
+			forstl(p, end, m_arguments) {
+				rv += p->ToLatexString();
+				auto q = p;
+				if ((++q) != end) {
+					rv += ", ";
+				}
+			}
+			rv += ")";
+			return rv;
+		}
+	}
+	return "";
+}
+
 Fraction expression::calc_frac() {
 	if (m_type == "number" || m_type == "var") {
 		return Fraction (atoll (m_value.c_str()));
